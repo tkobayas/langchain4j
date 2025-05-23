@@ -1,0 +1,4 @@
+- Cognisphere store SPI
+- Human-in-the-loop ?
+- Agents as tool ?
+- Non-AI agents ?
