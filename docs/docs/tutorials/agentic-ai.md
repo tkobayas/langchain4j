@@ -34,7 +34,7 @@ public interface CreativeWriter {
 
 It is a good practice to also provide with that annotation a short description of the agent's purpose, especially if it is intended to be used in pure agentic patterns, where other agents need to know the capabilities of this agent to make an informed decision on how and when using it.
 
-It is not possible to build an instance of this agent using the `AgentServices.agentBuilder()` method, specifying the interface and the chat model to use. 
+It is now possible to build an instance of this agent using the `AgentServices.agentBuilder()` method, specifying the interface and the chat model to use. 
 
 ```java
 CreativeWriter creativeWriter = AgentServices.agentBuilder(CreativeWriter.class)
