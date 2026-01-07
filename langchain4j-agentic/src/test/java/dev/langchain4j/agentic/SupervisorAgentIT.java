@@ -17,6 +17,8 @@ import dev.langchain4j.agent.tool.P;
 import dev.langchain4j.agent.tool.Tool;
 import dev.langchain4j.agent.tool.ToolSpecification;
 import dev.langchain4j.agentic.Agents.LegalExpert;
+import dev.langchain4j.agentic.Agents.LoanApplicationEvaluator;
+import dev.langchain4j.agentic.Agents.LoanApplicationExtractor;
 import dev.langchain4j.agentic.Agents.MedicalExpert;
 import dev.langchain4j.agentic.Agents.RouterAgent;
 import dev.langchain4j.agentic.Agents.TechnicalExpert;
@@ -693,6 +695,24 @@ public class SupervisorAgentIT {
         assertThat(result).containsIgnoringCase("purple");
     }
 
+    @Test
+    void pojo_argument_test() {
+        LoanApplicationExtractor loanApplicationExtractor = AgenticServices.agentBuilder(LoanApplicationExtractor.class)
+                .chatModel(baseModel())
+                .build();
+        LoanApplicationEvaluator loanApplicationEvaluator = AgenticServices.agentBuilder(LoanApplicationEvaluator.class)
+                .chatModel(baseModel())
+                .build();
+
+        SupervisorAgent loanAgent = AgenticServices.supervisorBuilder()
+                .chatModel(plannerModel())
+                .responseStrategy(SupervisorResponseStrategy.LAST)
+                .subAgents(loanApplicationExtractor, loanApplicationEvaluator)
+                .build();
+
+        String result = loanAgent.invoke("John Doe submitted a loan application of 80000. He is 30 years old. Evaluate his application.");
+        assertThat(result).containsIgnoringCase("rejected");
+    }
 
     static class PlannerModelReturningDoneWithoutResponse implements ChatModel {
 
